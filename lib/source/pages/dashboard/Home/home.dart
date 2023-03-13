@@ -56,28 +56,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40, right: 20, left: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 270,
-                              child: Text(
-                                '',
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+                    children: [
+                      const SizedBox(height: 80),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Notifikasi extends StatefulWidget {
   const Notifikasi({super.key});
@@ -10,6 +11,12 @@ class Notifikasi extends StatefulWidget {
 class _NotifikasiState extends State<Notifikasi> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF3A1078),
+        elevation: 0.0,
+        title: Text('Notifkasi', style: GoogleFonts.montserrat()),
+      ),
+    );
   }
 }

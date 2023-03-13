@@ -13,6 +13,7 @@ class StockOpnameLoaded extends StockOpnameState {
 
   StockOpnameLoaded({this.statusCode, this.json});
 }
+
 class StockBarangLoading extends StockOpnameState {}
 
 class StockBarangLoaded extends StockOpnameState {
@@ -20,4 +21,13 @@ class StockBarangLoaded extends StockOpnameState {
   dynamic json;
 
   StockBarangLoaded({this.statusCode, this.json});
+}
+
+class EntryStockLoading extends StockOpnameState {}
+
+class EntryStockLoaded extends StockOpnameState {
+  final int? statusCode;
+  dynamic json;
+
+  EntryStockLoaded({this.statusCode, this.json});
 }

@@ -6,6 +6,8 @@ import 'package:hikaron/source/widget/buttonSave.dart';
 import 'package:hikaron/source/widget/customDialog.dart';
 import 'package:hikaron/source/widget/customTextFieldRead.dart';
 
+import '../../../widget/buttonScan.dart';
+
 class StockOpname extends StatefulWidget {
   const StockOpname({super.key});
 
@@ -36,6 +38,7 @@ class _StockOpnameState extends State<StockOpname> {
           stockopnamed_pt_id,
           controllerCode.text,
           controllerQty.text,
+          context,
         );
       }
     }
@@ -90,32 +93,29 @@ class _StockOpnameState extends State<StockOpname> {
               MyDialog.dialogAlert(context, 'Code: $statusCode \n ${json['message']}');
             }
           }
+          if (state is EntryStockLoading) {
+            EasyLoading.show();
+          }
+          if (state is EntryStockLoaded) {
+            var json = state.json;
+            var statusCode = state.statusCode;
+            if (statusCode == 200) {
+              MyDialog.dialogSuccess(context, '${json.toString()}');
+            } else {
+              MyDialog.dialogAlert(context, '${json.toString()}');
+            }
+          }
         },
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {
-                  BlocProvider.of<StockOpnameCubit>(context).scanQROpname(context);
-                },
-                splashColor: Colors.blue,
-                child: Ink(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: Colors.blue, width: 2),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.qr_code_sharp), Text("Scan QR Opname")],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child: CustomButtonScan(
+                  onTap: () {
+                    BlocProvider.of<StockOpnameCubit>(context).scanQROpname(context);
+                  },
+                  judul: 'Scan QR Opname',
+                )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Form(
@@ -142,101 +142,46 @@ class _StockOpnameState extends State<StockOpname> {
             ),
             const SizedBox(height: 12),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {
-                  BlocProvider.of<StockOpnameCubit>(context).scanQRBarang(opname_oid, context);
-                },
-                splashColor: Colors.blue,
-                child: Ink(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: Colors.blue, width: 2),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.qr_code_sharp), Text("Scan QR Barang")],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child: CustomButtonScan(
+                  onTap: () {
+                    BlocProvider.of<StockOpnameCubit>(context).scanQRBarang(opname_oid, context);
+                  },
+                  judul: 'Scan QR Barang',
+                )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Form(
                 key: formkey,
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.0), boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 5,
-                          offset: Offset(1, 2),
-                        )
-                      ]),
-                      child: CustomFormFieldRead(
-                        controller: controllerCode,
-                        hint: 'Code',
-                        label: 'Code',
-                        msgError: 'Kolom tidak boleh kosong',
-                      ),
+                    CustomFormFieldRead(
+                      controller: controllerCode,
+                      hint: 'Code',
+                      label: 'Code',
+                      msgError: 'Kolom tidak boleh kosong',
                     ),
                     const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.0), boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 5,
-                          offset: Offset(1, 2),
-                        )
-                      ]),
-                      child: CustomFormFieldRead(
-                        controller: controllerDesign,
-                        hint: 'Design',
-                        label: 'Design',
-                        msgError: 'Kolom tidak boleh kosong',
-                      ),
+                    CustomFormFieldRead(
+                      controller: controllerDesign,
+                      hint: 'Design',
+                      label: 'Design',
+                      msgError: 'Kolom tidak boleh kosong',
                     ),
                     const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.0), boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 5,
-                          offset: Offset(1, 2),
-                        )
-                      ]),
-                      child: CustomFormFieldRead(
-                        controller: controllerColor,
-                        hint: 'Color',
-                        label: 'Color',
-                        msgError: 'Kolom tidak boleh kosong',
-                      ),
+                    CustomFormFieldRead(
+                      controller: controllerColor,
+                      hint: 'Color',
+                      label: 'Color',
+                      msgError: 'Kolom tidak boleh kosong',
                     ),
                     const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.0), boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 5,
-                          offset: Offset(1, 2),
-                        )
-                      ]),
-                      child: CustomFormFieldRead(
-                        controller: controllerQty,
-                        hint: 'Qty',
-                        label: 'Qty',
-                        m: 'M',
-                        msgError: 'Kolom tidak boleh kosong',
-                      ),
+                    CustomFormFieldRead(
+                      controller: controllerQty,
+                      hint: 'Qty',
+                      label: 'Qty',
+                      m: 'M',
+                      msgError: 'Kolom tidak boleh kosong',
                     ),
                     const SizedBox(height: 6),
                   ],

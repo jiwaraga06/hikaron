@@ -40,9 +40,11 @@ class AuthCubit extends Cubit<AuthState> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     myRepository!.login(context, username, pass).then((value) {
       var json = jsonDecode(value.body);
-      pref.setString('token', json['token']);
-      pref.setString('username', json['usernama']);
       print("Login: $json");
+      if (value.statusCode == 200) {
+        pref.setString('token', json['token']);
+        pref.setString('username', json['usernama']);
+      }
       emit(AuthLoaded(statusCode: value.statusCode, json: json));
     });
   }

@@ -20,7 +20,7 @@ class RouterNavigation {
     GetPage(
       name: LOGIN,
       page: () => Login(),
-      transition: Transition.fade,
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: BOTTOM_NAV,
