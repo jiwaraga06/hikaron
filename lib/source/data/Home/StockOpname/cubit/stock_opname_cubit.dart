@@ -22,9 +22,17 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
       print('Result Scan:  $barcodeScanRes');
       if (barcodeScanRes != '-1') {
         myRepository!.getOpnameCode(barcodeScanRes, context).then((value) {
-          var json = jsonDecode(value.body);
-          print('OPNAME: $json');
-          emit(StockOpnameLoaded(statusCode: value.statusCode, json: json));
+          print('BARANG: ${value.body}');
+          print('BARANG: ${value.statusCode}');
+          if (value.statusCode == 200) {
+            var json = jsonDecode(value.body);
+            emit(StockOpnameLoaded(statusCode: value.statusCode, json: json));
+          } else if (value.statusCode == 401) {
+            emit(StockOpnameLoaded(statusCode: value.statusCode, json: {'message': 'Unauthorized'}));
+          } else {
+            var json = jsonDecode(value.body);
+            emit(StockOpnameLoaded(statusCode: value.statusCode, json: json));
+          }
         });
       } else {
         EasyLoading.dismiss();
@@ -45,9 +53,18 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
         print('Result Scan:  $barcodeScanRes');
         if (barcodeScanRes != '-1') {
           myRepository!.getBarangCode(opname_oid, barcodeScanRes, context).then((value) {
-            var json = jsonDecode(value.body);
-            print('BARANG: $json');
-            emit(StockBarangLoaded(statusCode: value.statusCode, json: json));
+            print('BARANG: ${value.body}');
+            print('BARANG: ${value.statusCode}');
+            if (value.statusCode == 200) {
+              var json = jsonDecode(value.body);
+              print('BARANG: $json');
+              emit(StockBarangLoaded(statusCode: value.statusCode, json: json));
+            } else if (value.statusCode == 401) {
+              emit(StockBarangLoaded(statusCode: value.statusCode, json: {'message': 'Unauthorized'}));
+            } else {
+              var json = jsonDecode(value.body);
+              emit(StockBarangLoaded(statusCode: value.statusCode, json: json));
+            }
           });
         } else {
           EasyLoading.dismiss();
@@ -72,9 +89,16 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
     print(body);
     emit(EntryStockLoading());
     myRepository!.entryStockOpname(body, context).then((value) {
-      var json = jsonDecode(value.body);
-      print("Entry Stock: $json");
-      emit(EntryStockLoaded(statusCode: value.statusCode, json: json));
+      print("Entry Stock: ${value.body}");
+      print("Entry Stock: ${value.statusCode}");
+      if (value.statusCode == 200) {
+        emit(EntryStockLoaded(statusCode: value.statusCode, json: {'message': 'Berhasil'}));
+      } else if (value.statusCode == 401) {
+        emit(EntryStockLoaded(statusCode: value.statusCode, json: {'message': 'Authorized'}));
+      } else {
+        var json = jsonDecode(value.body);
+        emit(EntryStockLoaded(statusCode: value.statusCode, json: json));
+      }
     });
   }
 }

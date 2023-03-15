@@ -18,8 +18,25 @@ class MyRepository {
     var json = await myNetwork!.getBarangCode(opname_oid, qr_code, context);
     return json;
   }
+
   Future entryStockOpname(body, context) async {
     var json = await myNetwork!.entryStockOpname(body, context);
+    return json;
+  }
+
+  // DO REALIZATION
+  Future doCode(do_code, context) async {
+    var json = await myNetwork!.getDoCode(do_code, context);
+    return json;
+  }
+
+  Future doBarang(do_code, qr_code, context) async {
+    var json = await myNetwork!.getDoBarang(do_code, qr_code, context);
+    return json;
+  }
+
+  Future entryDoOpname(body, context) async {
+    var json = await myNetwork!.entryDoOpname(body, context);
     return json;
   }
 }

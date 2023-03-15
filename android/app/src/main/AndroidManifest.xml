@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hikaron.hikaron">
    <application
-        android:label="hikaron"
+        android:label="Hikaron"
         android:name="${applicationName}"
         android:icon="@mipmap/hikaron">
         <activity

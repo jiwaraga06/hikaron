@@ -69,7 +69,7 @@ class _StockOpnameState extends State<StockOpname> {
                 controllerCodeOpName = TextEditingController(text: json['stockopname_code']);
               });
             } else {
-              MyDialog.dialogAlert(context, 'Code: $statusCode \n ${json['message']}');
+              MyDialog.dialogAlert(context, '${json['message']}');
             }
           }
           if (state is StockBarangLoading) {
@@ -90,7 +90,7 @@ class _StockOpnameState extends State<StockOpname> {
                 controllerQty = TextEditingController(text: json['stockopnamed_qty'].toString());
               });
             } else {
-              MyDialog.dialogAlert(context, 'Code: $statusCode \n ${json['message']}');
+              MyDialog.dialogAlert(context, '${json['message']}');
             }
           }
           if (state is EntryStockLoading) {
@@ -100,9 +100,11 @@ class _StockOpnameState extends State<StockOpname> {
             var json = state.json;
             var statusCode = state.statusCode;
             if (statusCode == 200) {
-              MyDialog.dialogSuccess(context, '${json.toString()}');
+              MyDialog.dialogSuccess(context, json['message']);
+            } else if (statusCode == 401) {
+              MyDialog.dialogAlert(context, json['message']);
             } else {
-              MyDialog.dialogAlert(context, '${json.toString()}');
+              MyDialog.dialogAlert(context, json['title']);
             }
           }
         },

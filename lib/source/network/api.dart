@@ -15,4 +15,14 @@ class MyApi {
   static entryStockOpname(){
     return '$baseUrl/api/StockOpname/EntryStockOpname';
   }
+  // DO Realization
+  static doCode(do_code){
+    return '$baseUrl/api/DORealization/GetDeliveryOrder?do_code=$do_code';
+  }
+  static doBarang(do_code, qr_code){
+    return '$baseUrl/api/DORealization/GetItemData?do_code=$do_code&qr_code=$qr_code';
+  }
+  static entryDoOpname(){
+    return '$baseUrl/api/DORealization/InsertData';
+  }
 }
