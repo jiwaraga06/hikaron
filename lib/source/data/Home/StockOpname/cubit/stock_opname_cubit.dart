@@ -44,7 +44,7 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
 
   void scanQRBarang(opname_oid, context) async {
     if (opname_oid == null) {
-      MyDialog.dialogInfo(context, 'OpNamed Oid masih kosong', () {});
+      MyDialog.dialogInfo(context, 'OpNamed Oid masih kosong',() {},() {});
     } else {
       emit(StockBarangLoading());
       String? barcodeScanRes;

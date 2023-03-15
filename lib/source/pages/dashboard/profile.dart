@@ -28,7 +28,7 @@ class _ProfileState extends State<Profile> {
         actions: [
           IconButton(
               onPressed: () {
-                MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {
+                MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?',(){}, () {
                   BlocProvider.of<ProfileCubit>(context).logout(context);
                 });
               },

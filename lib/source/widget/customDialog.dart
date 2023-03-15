@@ -24,14 +24,14 @@ class MyDialog {
       btnOkOnPress: () {},
     )..show();
   }
-  static dialogInfo(context, message, VoidCallback onPressedOk) {
+  static dialogInfo(context, message,VoidCallback onPressedCancel ,VoidCallback onPressedOk) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.info,
       animType: AnimType.rightSlide,
       title: 'Info',
       desc: '$message',
-      btnCancelOnPress: () {},
+      btnCancelOnPress: onPressedCancel,
       btnOkOnPress: onPressedOk,
     )..show();
   }

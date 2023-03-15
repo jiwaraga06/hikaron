@@ -47,11 +47,11 @@ class DoRealizationCubit extends Cubit<DoRealizationState> {
   }
 
   void scanQrBarang(do_code, context) async {
+    String? barcodeScanRes;
     if (do_code == null) {
-      MyDialog.dialogInfo(context, 'Do Code masih kosong', () {});
+      MyDialog.dialogInfo(context, 'Do Code masih kosong', () {}, () {});
     } else {
       emit(DoBarangLoading());
-      String? barcodeScanRes;
       try {
         barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
         print('Result Scan:  $barcodeScanRes');
@@ -61,6 +61,7 @@ class DoRealizationCubit extends Cubit<DoRealizationState> {
             print('Do BARANG: ${value.statusCode}');
             if (value.statusCode == 200) {
               var json = jsonDecode(value.body);
+              emit(DoBarangLoaded(json: json, statusCode: value.statusCode));
             } else if (value.statusCode == 401) {
               emit(DoBarangLoaded(json: {'message': 'Unauthorized'}, statusCode: value.statusCode));
             } else if (value.statusCode == 400) {
@@ -105,9 +106,6 @@ class DoRealizationCubit extends Cubit<DoRealizationState> {
       } else if (value.statusCode == 401) {
         var json = jsonDecode(value.body);
         emit(EntryDoLoaded(statusCode: value.statusCode, json: {'message': 'Unauthorized'}));
-      } else if (value.statusCode == 400) {
-        var json = jsonDecode(value.body);
-        emit(EntryDoLoaded(statusCode: value.statusCode, json: json));
       } else {
         var json = jsonDecode(value.body);
         emit(EntryDoLoaded(statusCode: value.statusCode, json: json));

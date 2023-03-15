@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                                     Get.toNamed(DO_REALIZATION);
                                     // Navigator.pushNamed(context, DO_REALIZATION);
                                   },
-                                  judul: 'DO Realization',
+                                  judul: 'Packing List',
                                 ),
                               ],
                             ),
