@@ -20,7 +20,6 @@ class MyDialog {
       animType: AnimType.rightSlide,
       title: 'Success',
       desc: '$message',
-      btnCancelOnPress: () {},
       btnOkOnPress: () {},
     )..show();
   }

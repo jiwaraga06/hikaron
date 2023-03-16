@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
 import 'package:hikaron/source/router/string.dart';
 import 'package:hikaron/source/widget/customButton.dart';
+import 'package:hikaron/source/widget/customDialog.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

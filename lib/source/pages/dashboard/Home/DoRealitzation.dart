@@ -16,6 +16,7 @@ class DoRealization extends StatefulWidget {
 }
 
 class _DoRealizationState extends State<DoRealization> {
+  TextEditingController controllerDoCode = TextEditingController();
   TextEditingController controllerDoDate = TextEditingController();
   TextEditingController controllerCustomer = TextEditingController();
   TextEditingController controllerRolOpenDO = TextEditingController();
@@ -64,17 +65,17 @@ class _DoRealizationState extends State<DoRealization> {
               if (statusCode == 200) {
                 setState(() {
                   var jam = DateFormat('dd/MM/yyyy').format(DateTime.parse(json['do_date']));
+                  controllerDoCode = TextEditingController(text: json['do_code'].toString());
                   controllerDoDate = TextEditingController(text: jam);
                   controllerCustomer = TextEditingController(text: json['ptnr_name']);
                   do_code = json['do_code'];
-                   controllerRolOpenDO.clear();
+                  controllerRolOpenDO.clear();
                   controllerDesign.clear();
                   controllerColor.clear();
                   controllerJointPeice.clear();
                   controllerGrade.clear();
                   controllerBatch.clear();
                   controllerQty.clear();
-                  do_code = null;
                   dod_oid = null;
                   pt_id = null;
                   qr_code = null;
@@ -112,7 +113,6 @@ class _DoRealizationState extends State<DoRealization> {
                   price_mtr = json['price_mtr'];
                   is_foc = json['is_foc'];
                   is_cons = json['is_cons'];
-                  
                 });
               } else {
                 MyDialog.dialogAlert(context, json['message']);
@@ -136,15 +136,6 @@ class _DoRealizationState extends State<DoRealization> {
                   controllerGrade.clear();
                   controllerBatch.clear();
                   controllerQty.clear();
-                  do_code = null;
-                  dod_oid = null;
-                  pt_id = null;
-                  qr_code = null;
-                  grade_id = null;
-                  roll = null;
-                  price_mtr = null;
-                  is_foc = null;
-                  is_cons = null;
                 });
               } else if (statusCode == 401) {
                 MyDialog.dialogAlert(context, json['message']);
@@ -174,6 +165,12 @@ class _DoRealizationState extends State<DoRealization> {
                         key: formKeyStockOpname,
                         child: Column(
                           children: [
+                            CustomFormFieldRead(
+                              controller: controllerDoCode,
+                              hint: 'Masukan DO Code',
+                              label: 'DO Code',
+                              msgError: 'Kolom harus di isi',
+                            ),
                             CustomFormFieldRead(
                               controller: controllerDoDate,
                               hint: 'Masukan DO Date',
