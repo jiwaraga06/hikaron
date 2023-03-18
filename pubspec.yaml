@@ -45,6 +45,11 @@ dependencies:
   splash_screen_view: ^3.0.0
   flutter_easyloading: ^3.0.5
   get: ^4.6.5
+  modal_bottom_sheet:
+     git:
+       url: https://github.com/followthemoney1/modal_bottom_sheet.git
+       ref: main
+       path: modal_bottom_sheet
 
 dev_dependencies:
   flutter_test:

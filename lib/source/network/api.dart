@@ -12,17 +12,24 @@ class MyApi {
   static getBarangCode(opname_oid, qr_code) {
     return '$baseUrl/api/StockOpname/GetDataQR?opname_oid=$opname_oid&qr_code=$qr_code';
   }
-  static entryStockOpname(){
+
+  static entryStockOpname() {
     return '$baseUrl/api/StockOpname/EntryStockOpname';
   }
+
   // DO Realization
-  static doCode(do_code){
+  static doCode(do_code) {
     return '$baseUrl/api/DORealization/GetDeliveryOrder?do_code=$do_code';
   }
-  static doBarang(do_code, qr_code){
+
+  static doBarang(do_code, qr_code) {
     return '$baseUrl/api/DORealization/GetItemData?do_code=$do_code&qr_code=$qr_code';
   }
-  static entryDoOpname(){
+
+  static entryDoOpname() {
     return '$baseUrl/api/DORealization/InsertData';
+  }
+  static getDOList() {
+    return '$baseUrl/api/DORealization/GetDeliveryOrderList';
   }
 }

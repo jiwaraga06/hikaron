@@ -1,12 +1,18 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hikaron/source/data/Home/DoRealization/cubit/do_list_cubit.dart';
 import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubit.dart';
+import 'package:hikaron/source/widget/button2.dart';
 import 'package:hikaron/source/widget/buttonSave.dart';
 import 'package:hikaron/source/widget/buttonScan.dart';
 import 'package:hikaron/source/widget/customDialog.dart';
+import 'package:hikaron/source/widget/customTextField.dart';
 import 'package:hikaron/source/widget/customTextFieldRead.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DoRealization extends StatefulWidget {
   const DoRealization({super.key});
@@ -16,6 +22,8 @@ class DoRealization extends StatefulWidget {
 }
 
 class _DoRealizationState extends State<DoRealization> {
+  TextEditingController controllerCari = TextEditingController();
+  //
   TextEditingController controllerDoCode = TextEditingController();
   TextEditingController controllerDoDate = TextEditingController();
   TextEditingController controllerCustomer = TextEditingController();
@@ -27,6 +35,7 @@ class _DoRealizationState extends State<DoRealization> {
   TextEditingController controllerBatch = TextEditingController();
   TextEditingController controllerQty = TextEditingController();
   var do_code, dod_oid, pt_id, qr_code, grade_id, roll, price_mtr, is_foc, is_cons;
+  bool manual = false;
   final formKeyStockOpname = GlobalKey<FormState>();
   final formKeyBarang = GlobalKey<FormState>();
   void save() {
@@ -36,6 +45,12 @@ class _DoRealizationState extends State<DoRealization> {
             .entryDoOpname(dod_oid, pt_id, qr_code, grade_id, roll, controllerQty.text, price_mtr, is_foc, is_cons, context);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // BlocProvider.of<DoListCubit>(context).getDoList(context);
   }
 
   @override
@@ -52,6 +67,16 @@ class _DoRealizationState extends State<DoRealization> {
           backgroundColor: Color(0xFF3A1078),
           elevation: 0.0,
           title: Text('Packing List'),
+          actions: [
+            Switch(
+              value: manual,
+              onChanged: (value) {
+                setState(() {
+                  manual = !manual;
+                });
+              },
+            )
+          ],
         ),
         body: BlocListener<DoRealizationCubit, DoRealizationState>(
           listener: (context, state) {
@@ -144,20 +169,35 @@ class _DoRealizationState extends State<DoRealization> {
               }
             }
           },
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: ListView(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomButtonScan(
-                        onTap: () {
-                          BlocProvider.of<DoRealizationCubit>(context).scanQrDo(context);
-                        },
-                        judul: 'Scan DO Stock Opname',
-                      ),
-                    ),
+                    const SizedBox(height: 6),
+                    manual
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 40,
+                                child: CustomButton2(
+                                    onPressed: () {
+                                      showModal();
+                                      BlocProvider.of<DoListCubit>(context).getDoList(context);
+                                    },
+                                    judul: 'Pilih DO')),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomButtonScan(
+                              onTap: () {
+                                BlocProvider.of<DoRealizationCubit>(context).scanQrDo(context);
+                              },
+                              judul: 'Scan DO',
+                            ),
+                          ),
                     const SizedBox(height: 6),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -260,28 +300,98 @@ class _DoRealizationState extends State<DoRealization> {
                   ],
                 ),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: CustomButtonSave(
-                            judul: 'SAVE',
-                            onPressed: save,
-                          )),
-                    )
-                  ],
-                ),
-              )
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: CustomButtonSave(
+                      judul: 'SAVE',
+                      onPressed: save,
+                    )),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void showModal() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => StatefulBuilder(
+              builder: (context, setState) {
+                return Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.close),
+                              Text('Tutup'),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            child: TextFormField(
+                              controller: controllerCari,
+                              decoration: InputDecoration(hintText: 'Cari Customer', prefixIcon: Icon(Icons.search)),
+                              onChanged: (value) {
+                                BlocProvider.of<DoListCubit>(context).searchData(value);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    BlocBuilder<DoListCubit, DoListState>(
+                      builder: (context, state) {
+                        if (state is DoListLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is DoListLoaded == false) {
+                          return Container();
+                        }
+                        var json = (state as DoListLoaded).json;
+                        if (json.isEmpty) {
+                          return Container();
+                        }
+                        return Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: json.length,
+                            itemBuilder: (context, index) {
+                              var data = json[index];
+                              return ListTile(
+                                onTap: () {
+                                  print(data);
+                                  BlocProvider.of<DoRealizationCubit>(context).getDo(data['do_code'], context);
+                                  Navigator.pop(context);
+                                },
+                                leading: Icon(Icons.format_list_bulleted),
+                                title: Text(data['do_code']),
+                                subtitle: Text(data['ptnr_name']),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ));
   }
 }

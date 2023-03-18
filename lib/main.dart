@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
 import 'package:hikaron/source/data/Auth/cubit/profile_cubit.dart';
+import 'package:hikaron/source/data/Home/DoRealization/cubit/do_list_cubit.dart';
 import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubit.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.dart';
 import 'package:hikaron/source/network/network.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => DoRealizationCubit(myRepository: myRepository),
+        ),
+        BlocProvider(
+          create: (context) => DoListCubit(myRepository: myRepository),
         ),
       ],
       child: GetMaterialApp(

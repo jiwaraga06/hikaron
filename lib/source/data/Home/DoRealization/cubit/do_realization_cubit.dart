@@ -15,6 +15,26 @@ class DoRealizationCubit extends Cubit<DoRealizationState> {
   final MyRepository? myRepository;
   DoRealizationCubit({required this.myRepository}) : super(DoRealizationInitial());
 
+  void getDo(do_code, context) async {
+    emit(DoOpnameLoading());
+    myRepository!.doCode(do_code, context).then((value) {
+      print('Do CODE: ${value.statusCode}');
+      print('Do CODE: ${value.body}');
+      if (value.statusCode == 200) {
+        var json = jsonDecode(value.body);
+        emit(DoOpnameLoaded(json: json, statusCode: value.statusCode));
+      } else if (value.statusCode == 401) {
+        emit(DoOpnameLoaded(json: {'message': 'Unauthorized'}, statusCode: value.statusCode));
+      } else if (value.statusCode == 400) {
+        var json = jsonDecode(value.body);
+        emit(DoOpnameLoaded(json: json, statusCode: value.statusCode));
+      } else {
+        var json = jsonDecode(value.body);
+        emit(DoOpnameLoaded(json: json, statusCode: value.statusCode));
+      }
+    });
+  }
+
   void scanQrDo(context) async {
     emit(DoOpnameLoading());
     String? barcodeScanRes;

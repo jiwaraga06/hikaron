@@ -39,4 +39,9 @@ class MyRepository {
     var json = await myNetwork!.entryDoOpname(body, context);
     return json;
   }
+
+  Future getDoList(context) async {
+    var json = await myNetwork!.getDoList(context);
+    return json;
+  }
 }

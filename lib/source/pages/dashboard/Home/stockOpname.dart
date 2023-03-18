@@ -127,10 +127,11 @@ class _StockOpnameState extends State<StockOpname> {
               }
             }
           },
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: ListView(
                   children: [
                     Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -215,24 +216,16 @@ class _StockOpnameState extends State<StockOpname> {
                   ],
                 ),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          child: CustomButtonSave(
-                            judul: 'SAVE',
-                            onPressed: save,
-                          )),
-                    )
-                  ],
-                ),
-              )
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            child: CustomButtonSave(
+                              judul: 'SAVE',
+                              onPressed: save,
+                            )),
+              ),
             ],
           ),
         ),
