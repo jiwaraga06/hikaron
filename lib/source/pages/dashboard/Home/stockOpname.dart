@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.dart';
+import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_list_cubit.dart';
+import 'package:hikaron/source/widget/button2.dart';
 import 'package:hikaron/source/widget/buttonSave.dart';
 import 'package:hikaron/source/widget/customDialog.dart';
 import 'package:hikaron/source/widget/customTextFieldRead.dart';
@@ -22,6 +24,8 @@ class _StockOpnameState extends State<StockOpname> {
   var stockopname_code, stockopname_date, stockopname_oid;
   var opname_oid;
   var stockopnamed_oid, stockopnamed_stockopname_oid, stockopnamed_pt_id, stockopnamed_upd_by;
+  TextEditingController controllerCari = TextEditingController();
+  //
   TextEditingController controllerCodeOpName = TextEditingController();
   TextEditingController controllerDate = TextEditingController();
   TextEditingController controllerOid = TextEditingController();
@@ -29,8 +33,7 @@ class _StockOpnameState extends State<StockOpname> {
   TextEditingController controllerDesign = TextEditingController();
   TextEditingController controllerColor = TextEditingController();
   TextEditingController controllerQty = TextEditingController();
-
-  bool wilPop = false;
+  bool manual = false;
 
   void save() {
     if (formkeyOpName.currentState!.validate()) {
@@ -61,6 +64,16 @@ class _StockOpnameState extends State<StockOpname> {
           backgroundColor: Color(0xFF3A1078),
           elevation: 0.0,
           title: Text('Stock Opname'),
+          actions: [
+            Switch(
+              value: manual,
+              onChanged: (value) {
+                setState(() {
+                  manual = !manual;
+                });
+              },
+            )
+          ],
         ),
         body: BlocListener<StockOpnameCubit, StockOpnameState>(
           listener: (context, state) {
@@ -133,14 +146,27 @@ class _StockOpnameState extends State<StockOpname> {
               Expanded(
                 child: ListView(
                   children: [
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomButtonScan(
-                          onTap: () {
-                            BlocProvider.of<StockOpnameCubit>(context).scanQROpname(context);
-                          },
-                          judul: 'Scan QR Opname',
-                        )),
+                    manual
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 40,
+                                child: CustomButton2(
+                                    onPressed: () {
+                                      showModal();
+                                      BlocProvider.of<StockOpnameListCubit>(context).getStockOpnameList(context);
+                                    },
+                                    judul: 'Pilih Opname')),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomButtonScan(
+                              onTap: () {
+                                BlocProvider.of<StockOpnameCubit>(context).scanQROpname(context);
+                              },
+                              judul: 'Scan QR Opname',
+                            )),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Form(
@@ -219,17 +245,94 @@ class _StockOpnameState extends State<StockOpname> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            child: CustomButtonSave(
-                              judul: 'SAVE',
-                              onPressed: save,
-                            )),
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: CustomButtonSave(
+                      judul: 'SAVE',
+                      onPressed: save,
+                    )),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void showModal() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => StatefulBuilder(
+              builder: (context, setState) {
+                return Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.close),
+                              Text('Tutup'),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            child: TextFormField(
+                              controller: controllerCari,
+                              decoration: InputDecoration(hintText: 'Cari Opname', prefixIcon: Icon(Icons.search)),
+                              onChanged: (value) {
+                                BlocProvider.of<StockOpnameListCubit>(context).searchData(value);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    BlocBuilder<StockOpnameListCubit, StockOpnameListState>(
+                      builder: (context, state) {
+                        if (state is StockOpnameListLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is StockOpnameListLoaded == false) {
+                          return Container();
+                        }
+                        var json = (state as StockOpnameListLoaded).json;
+                        if (json.isEmpty) {
+                          return Container();
+                        }
+                        return Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: json.length,
+                            itemBuilder: (context, index) {
+                              var data = json[index];
+                              return ListTile(
+                                onTap: () {
+                                  print(data);
+                                  BlocProvider.of<StockOpnameCubit>(context).getOpname(data['stockopname_code'], context);
+                                  Navigator.pop(context);
+                                },
+                                leading: Icon(Icons.format_list_bulleted),
+                                title: Text(data['stockopname_code']),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ));
   }
 }

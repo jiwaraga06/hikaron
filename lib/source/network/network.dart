@@ -28,6 +28,28 @@ class MyNetwork {
     }
   }
 
+    Future getStockOpnameList(context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var token = pref.getString('token');
+    try {
+      var url = Uri.parse(MyApi.getOpnameList());
+      var response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+      return response;
+    } on TimeoutException {
+      EasyLoading.dismiss();
+      MyDialog.dialogAlert(context, 'Masalah Koneksi \n Jaringan Lemah \n error get data DO LIST');
+    } on SocketException {
+      EasyLoading.dismiss();
+      MyDialog.dialogAlert(context, 'Masalah Koneksi \n Data Mati \n error get data DO LIST');
+    } on HttpException catch (e) {
+      EasyLoading.dismiss();
+      MyDialog.dialogAlert(context, e.message);
+    } on Error catch (e) {
+      EasyLoading.dismiss();
+      MyDialog.dialogAlert(context, e.toString());
+    }
+  }
+
   Future getOpnameCode(qr_code, context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var token = pref.getString('token');

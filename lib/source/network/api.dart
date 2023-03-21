@@ -5,6 +5,9 @@ class MyApi {
     return '$baseUrl/api/Login?username=$username&pass=$pass';
   }
 
+  static getOpnameList() {
+    return '$baseUrl/api/StockOpname/GetOpnameCodeList';
+  }
   static getOpnameCode(qr_code) {
     return '$baseUrl/api/StockOpname/GetOpnameCode?code=$qr_code';
   }

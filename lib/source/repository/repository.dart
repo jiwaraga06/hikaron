@@ -14,6 +14,11 @@ class MyRepository {
     return json;
   }
 
+  Future getStockOpnameList(context) async {
+    var json = await myNetwork!.getStockOpnameList(context);
+    return json;
+  }
+
   Future getBarangCode(opname_oid, qr_code, context) async {
     var json = await myNetwork!.getBarangCode(opname_oid, qr_code, context);
     return json;

@@ -7,6 +7,7 @@ import 'package:hikaron/source/data/Auth/cubit/profile_cubit.dart';
 import 'package:hikaron/source/data/Home/DoRealization/cubit/do_list_cubit.dart';
 import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubit.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.dart';
+import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_list_cubit.dart';
 import 'package:hikaron/source/network/network.dart';
 import 'package:hikaron/source/pages/dashboard/Home/DoRealitzation.dart';
 import 'package:hikaron/source/repository/repository.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => StockOpnameCubit(myRepository: myRepository),
+        ),
+        BlocProvider(
+          create: (context) => StockOpnameListCubit(myRepository: myRepository),
         ),
         BlocProvider(
           create: (context) => ProfileCubit(myRepository: myRepository),

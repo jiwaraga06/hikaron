@@ -14,6 +14,23 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
   final MyRepository? myRepository;
   StockOpnameCubit({this.myRepository}) : super(StockOpnameInitial());
 
+  void getOpname(stockopname_code, context) async {
+    emit(StockOpnameLoading());
+    myRepository!.getOpnameCode(stockopname_code, context).then((value) {
+      print('Opname: ${value.body}');
+      print('Opname: ${value.statusCode}');
+      if (value.statusCode == 200) {
+        var json = jsonDecode(value.body);
+        emit(StockOpnameLoaded(statusCode: value.statusCode, json: json));
+      } else if (value.statusCode == 401) {
+        emit(StockOpnameLoaded(statusCode: value.statusCode, json: {'message': 'Unauthorized'}));
+      } else {
+        var json = jsonDecode(value.body);
+        emit(StockOpnameLoaded(statusCode: value.statusCode, json: json));
+      }
+    });
+  }
+
   void scanQROpname(context) async {
     emit(StockOpnameLoading());
     String? barcodeScanRes;
@@ -22,8 +39,8 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
       print('Result Scan:  $barcodeScanRes');
       if (barcodeScanRes != '-1') {
         myRepository!.getOpnameCode(barcodeScanRes, context).then((value) {
-          print('BARANG: ${value.body}');
-          print('BARANG: ${value.statusCode}');
+          print('Opname: ${value.body}');
+          print('Opname: ${value.statusCode}');
           if (value.statusCode == 200) {
             var json = jsonDecode(value.body);
             emit(StockOpnameLoaded(statusCode: value.statusCode, json: json));
@@ -44,7 +61,7 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
 
   void scanQRBarang(opname_oid, context) async {
     if (opname_oid == null) {
-      MyDialog.dialogInfo(context, 'OpNamed Oid masih kosong',() {},() {});
+      MyDialog.dialogInfo(context, 'OpNamed Oid masih kosong', () {}, () {});
     } else {
       emit(StockBarangLoading());
       String? barcodeScanRes;
@@ -88,7 +105,7 @@ class StockOpnameCubit extends Cubit<StockOpnameState> {
     };
     print(body);
     emit(EntryStockLoading());
-    myRepository!.entryStockOpname(body, context).then((value) {
+    myRepository!.entryStockOpname(jsonEncode(body), context).then((value) {
       print("Entry Stock: ${value.body}");
       print("Entry Stock: ${value.statusCode}");
       if (value.statusCode == 200) {
