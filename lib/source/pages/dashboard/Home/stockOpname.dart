@@ -125,6 +125,7 @@ class _StockOpnameState extends State<StockOpname> {
               EasyLoading.show();
             }
             if (state is EntryStockLoaded) {
+              EasyLoading.dismiss();
               var json = state.json;
               var statusCode = state.statusCode;
               if (statusCode == 200) {

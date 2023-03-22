@@ -50,9 +50,6 @@ class DoRealizationCubit extends Cubit<DoRealizationState> {
             emit(DoOpnameLoaded(json: json, statusCode: value.statusCode));
           } else if (value.statusCode == 401) {
             emit(DoOpnameLoaded(json: {'message': 'Unauthorized'}, statusCode: value.statusCode));
-          } else if (value.statusCode == 400) {
-            var json = jsonDecode(value.body);
-            emit(DoOpnameLoaded(json: json, statusCode: value.statusCode));
           } else {
             var json = jsonDecode(value.body);
             emit(DoOpnameLoaded(json: json, statusCode: value.statusCode));
@@ -84,9 +81,6 @@ class DoRealizationCubit extends Cubit<DoRealizationState> {
               emit(DoBarangLoaded(json: json, statusCode: value.statusCode));
             } else if (value.statusCode == 401) {
               emit(DoBarangLoaded(json: {'message': 'Unauthorized'}, statusCode: value.statusCode));
-            } else if (value.statusCode == 400) {
-              var json = jsonDecode(value.body);
-              emit(DoBarangLoaded(json: json, statusCode: value.statusCode));
             } else {
               var json = jsonDecode(value.body);
               emit(DoBarangLoaded(json: json, statusCode: value.statusCode));
