@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
-import 'package:splash_screen_view/SplashScreenView.dart';
+part of "../index.dart";
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

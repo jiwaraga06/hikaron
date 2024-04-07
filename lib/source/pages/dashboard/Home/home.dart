@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
-import 'package:hikaron/source/router/string.dart';
-import 'package:hikaron/source/widget/customButton.dart';
-import 'package:hikaron/source/widget/customDialog.dart';
+part of "../../index.dart";
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -30,7 +23,7 @@ class _HomeState extends State<Home> {
             if (username == null) {
               return Container();
             }
-            return Text("Hallo, $username", style: GoogleFonts.montserrat());
+            return Text("Hallo, $username", style: GoogleFonts.montserrat(color: Colors.white));
           },
         ),
       ),
@@ -109,17 +102,40 @@ class _HomeState extends State<Home> {
                               children: [
                                 CustomButton(
                                   onTap: () {
-                                    // Navigator.pushNamed(context, STOCK_OPNAME);
-                                    Get.toNamed(STOCK_OPNAME);
+                                    Navigator.pushNamed(context, STOCK_OPNAME);
+                                    // Get.toNamed(STOCK_OPNAME);
                                   },
                                   judul: 'Stock Opname',
                                 ),
                                 CustomButton(
                                   onTap: () {
-                                    Get.toNamed(DO_REALIZATION);
-                                    // Navigator.pushNamed(context, DO_REALIZATION);
+                                    // Get.toNamed(DO_REALIZATION);
+                                    Navigator.pushNamed(context, DO_REALIZATION);
                                   },
                                   judul: 'Packing List',
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CustomButton(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, GOODS_RECEIPT);
+                                    // Get.toNamed(STOCK_OPNAME);
+                                  },
+                                  judul: 'Receipt',
+                                ),
+                                CustomButton(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, RETURN);
+                                    // Get.toNamed(STOCK_OPNAME);
+                                  },
+                                  judul: 'Return',
                                 ),
                               ],
                             ),

@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hikaron/source/data/Auth/cubit/profile_cubit.dart';
-import 'package:hikaron/source/widget/customDialog.dart';
+part of "../index.dart";
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -24,7 +20,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         backgroundColor: Color(0xFF3A1078),
         elevation: 0.0,
-        title: Text('Profile', style: GoogleFonts.montserrat()),
+        title: Text('Profile', style: GoogleFonts.montserrat(color: Colors.white)),
         actions: [
           IconButton(
               onPressed: () {
@@ -32,7 +28,7 @@ class _ProfileState extends State<Profile> {
                   BlocProvider.of<ProfileCubit>(context).logout(context);
                 });
               },
-              icon: Icon(Icons.logout_outlined)),
+              icon: Icon(Icons.logout_outlined, color: Colors.white)),
         ],
       ),
       body: ListView(

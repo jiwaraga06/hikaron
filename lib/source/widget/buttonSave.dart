@@ -12,11 +12,12 @@ class CustomButtonSave extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         primary: Color(0xFF4E31AA),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
       ),
       child: Text(
         judul!,
         style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w600,
+          fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white
         ),
       ),
     );

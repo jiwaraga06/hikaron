@@ -1,147 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hikaron/source/pages/Auth/login.dart';
-import 'package:hikaron/source/pages/Auth/splashScreen.dart';
-import 'package:hikaron/source/pages/bottomNavBar.dart';
-import 'package:hikaron/source/pages/dashboard/Home/DoRealitzation.dart';
-import 'package:hikaron/source/pages/dashboard/Home/home.dart';
-import 'package:hikaron/source/pages/dashboard/Home/stockOpname.dart';
-import 'package:hikaron/source/pages/dashboard/notifikasi.dart';
-import 'package:hikaron/source/pages/dashboard/profile.dart';
+import 'package:hikaron/source/pages/index.dart';
 import 'package:hikaron/source/router/string.dart';
 
 class RouterNavigation {
-  static final pages = [
-    GetPage(
-      name: SPLASH,
-      page: () => SplashScreen(),
-      transition: Transition.downToUp,
-    ),
-    GetPage(
-      name: LOGIN,
-      page: () => Login(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: BOTTOM_NAV,
-      page: () => BottomNavbar(),
-      transition: Transition.downToUp,
-    ),
-    GetPage(
-      name: HOME,
-      page: () => Home(),
-      transition: Transition.zoom,
-    ),
-    GetPage(
-      name: STOCK_OPNAME,
-      page: () => StockOpname(),
-      transition: Transition.leftToRight,
-    ),
-    GetPage(
-      name: DO_REALIZATION,
-      page: () => DoRealization(),
-      transition: Transition.rightToLeft,
-    ),
-    GetPage(
-      name: NOTIFIKASI,
-      page: () => Notifikasi(),
-      // transition: Transition.zoom,
-    ),
-    GetPage(
-      name: PROFILE,
-      page: () => Profile(),
-      // transition: Transition.zoom,
-    ),
-  ];
-  // Route? generateRoute(RouteSettings settings) {
-  //   switch (settings.name) {
-  //     case SPLASH:
-  //       return PageRouteBuilder(
-  //           pageBuilder: (context, animation, secondaryAnimation) => const SplashScreen(),
-  //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //             return SlideTransition(
-  //               transformHitTests: false,
-  //               position: Tween<Offset>(
-  //                 begin: const Offset(-1.0, 0.0),
-  //                 end: Offset.zero,
-  //               ).animate(animation),
-  //               child: SlideTransition(
-  //                 position: Tween<Offset>(
-  //                   begin: Offset.zero,
-  //                   end: const Offset(1.0, 0.0),
-  //                 ).animate(secondaryAnimation),
-  //                 child: child,
-  //               ),
-  //             );
-  //           });
-  //     case LOGIN:
-  //       return MaterialPageRoute(builder: (context) => Login());
-  //     case BOTTOM_NAV:
-  //       return PageRouteBuilder(
-  //           pageBuilder: (context, animation, secondaryAnimation) => const BottomNavbar(),
-  //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //             return SlideTransition(
-  //               transformHitTests: false,
-  //               position: Tween<Offset>(
-  //                 begin: const Offset(1.0, 0.0),
-  //                 end: Offset.zero,
-  //               ).animate(animation),
-  //               child: SlideTransition(
-  //                 position: Tween<Offset>(
-  //                   begin: Offset.zero,
-  //                   end: const Offset(-1.0, 0.0),
-  //                 ).animate(secondaryAnimation),
-  //                 child: child,
-  //               ),
-  //             );
-  //           });
-  //     case HOME:
-  //       return MaterialPageRoute(builder: (context) => Home());
-  //     case STOCK_OPNAME:
-  //       return PageRouteBuilder(
-  //           pageBuilder: (context, animation, secondaryAnimation) => const StockOpname(),
-  //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //             return SlideTransition(
-  //               transformHitTests: false,
-  //               position: Tween<Offset>(
-  //                 begin: const Offset(1.0, 0.0),
-  //                 end: Offset.zero,
-  //               ).animate(animation),
-  //               child: SlideTransition(
-  //                 position: Tween<Offset>(
-  //                   begin: Offset.zero,
-  //                   end: const Offset(1.0, 0.0),
-  //                 ).animate(secondaryAnimation),
-  //                 child: child,
-  //               ),
-  //             );
-  //           });
-  //     case DO_REALIZATION:
-  //       return PageRouteBuilder(
-  //           pageBuilder: (context, animation, secondaryAnimation) => const DoRealization(),
-  //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //             return SlideTransition(
-  //               transformHitTests: false,
-  //               position: Tween<Offset>(
-  //                 begin: const Offset(1.0, 0.0),
-  //                 end: Offset.zero,
-  //               ).animate(animation),
-  //               child: SlideTransition(
-  //                 position: Tween<Offset>(
-  //                   begin: Offset.zero,
-  //                   end: const Offset(-1.0, 0.0),
-  //                 ).animate(secondaryAnimation),
-  //                 child: child,
-  //               ),
-  //             );
-  //           });
-  //     case NOTIFIKASI:
-  //       return MaterialPageRoute(builder: (context) => Notifikasi());
-  //     case PROFILE:
-  //       return MaterialPageRoute(builder: (context) => Profile());
+  SlideTransition bottomToTop(context, animation, secondaryAnimation, child) {
+    const begin = Offset(0.0, 1.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    return SlideTransition(position: animation.drive(tween), child: child);
+  }
 
-  //     default:
-  //       return null;
-  //   }
-  // }
+  SlideTransition topToBottom(context, animation, secondaryAnimation, child) {
+    const begin = Offset(0.0, -1.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    return SlideTransition(position: animation.drive(tween), child: child);
+  }
+
+  SlideTransition rightToLeft(context, animation, secondaryAnimation, child) {
+    const begin = Offset(1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.easeInOut;
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    var offsetAnimation = animation.drive(tween);
+    return SlideTransition(position: offsetAnimation, child: child);
+  }
+
+  SlideTransition leftToRight(context, animation, secondaryAnimation, child) {
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.easeInOut;
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    var offsetAnimation = animation.drive(tween);
+    return SlideTransition(position: offsetAnimation, child: child);
+  }
+
+  Route? generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case SPLASH:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const SplashScreen(),
+          transitionsBuilder: bottomToTop,
+        );
+      case LOGIN:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const Login(),
+          transitionsBuilder: bottomToTop,
+        );
+      case BOTTOM_NAV:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const BottomNavbar(),
+          transitionsBuilder: rightToLeft,
+        );
+      case HOME:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+          transitionsBuilder: rightToLeft,
+        );
+      case STOCK_OPNAME:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const StockOpname(),
+          transitionsBuilder: leftToRight,
+        );
+      case DO_REALIZATION:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const DoRealization(),
+          transitionsBuilder: rightToLeft,
+        );
+      case GOODS_RECEIPT:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const GoodsReceipt(),
+          transitionsBuilder: leftToRight,
+        );
+      case RETURN:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const ReturnScreem(),
+          transitionsBuilder: rightToLeft,
+        );
+      case NOTIFIKASI:
+        return PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => const Notifikasi());
+      case PROFILE:
+        return PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => const Profile());
+
+      default:
+        return null;
+    }
+  }
 }

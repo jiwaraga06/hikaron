@@ -1,15 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.dart';
-import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_list_cubit.dart';
-import 'package:hikaron/source/widget/button2.dart';
-import 'package:hikaron/source/widget/buttonSave.dart';
-import 'package:hikaron/source/widget/customDialog.dart';
-import 'package:hikaron/source/widget/customTextFieldRead.dart';
-import 'package:intl/intl.dart';
-
-import '../../../widget/buttonScan.dart';
+part of "../../index.dart";
 
 class StockOpname extends StatefulWidget {
   const StockOpname({super.key});
@@ -61,7 +50,7 @@ class _StockOpnameState extends State<StockOpname> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF3A1078),
+          backgroundColor: Colors.white,
           elevation: 0.0,
           title: Text('Stock Opname'),
           actions: [
@@ -158,7 +147,7 @@ class _StockOpnameState extends State<StockOpname> {
                                       showModal();
                                       BlocProvider.of<StockOpnameListCubit>(context).getStockOpnameList(context);
                                     },
-                                    judul: 'Pilih Opname')),
+                                    judul: 'Pilih Opname', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),)),
                           )
                         : Padding(
                             padding: const EdgeInsets.all(8.0),

@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomButton2 extends StatelessWidget {
   final String? judul;
   final VoidCallback? onPressed;
-  const CustomButton2({super.key, this.judul, this.onPressed});
+  final TextStyle? style;
+  const CustomButton2({super.key, this.judul, this.onPressed, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +14,11 @@ class CustomButton2 extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 0.0,
         primary: Color(0xFFB46060),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
       ),
       child: Text(
         judul!,
-        style: GoogleFonts.montserrat(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
+        style: style ?? GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600),
       ),
     );
   }

@@ -1,19 +1,4 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hikaron/source/data/Home/DoRealization/cubit/do_list_cubit.dart';
-import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubit.dart';
-import 'package:hikaron/source/widget/button2.dart';
-import 'package:hikaron/source/widget/buttonSave.dart';
-import 'package:hikaron/source/widget/buttonScan.dart';
-import 'package:hikaron/source/widget/customDialog.dart';
-import 'package:hikaron/source/widget/customTextField.dart';
-import 'package:hikaron/source/widget/customTextFieldRead.dart';
-import 'package:intl/intl.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
+part of "../../index.dart";
 class DoRealization extends StatefulWidget {
   const DoRealization({super.key});
 
@@ -64,7 +49,7 @@ class _DoRealizationState extends State<DoRealization> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF3A1078),
+          backgroundColor: Colors.white,
           elevation: 0.0,
           title: Text('Packing List'),
           actions: [
@@ -183,11 +168,13 @@ class _DoRealizationState extends State<DoRealization> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 40,
                                 child: CustomButton2(
-                                    onPressed: () {
-                                      showModal();
-                                      BlocProvider.of<DoListCubit>(context).getDoList(context);
-                                    },
-                                    judul: 'Pilih DO')),
+                                  onPressed: () {
+                                    showModal();
+                                    BlocProvider.of<DoListCubit>(context).getDoList(context);
+                                  },
+                                  judul: 'Pilih DO',
+                                  style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                                )),
                           )
                         : Padding(
                             padding: const EdgeInsets.all(8.0),

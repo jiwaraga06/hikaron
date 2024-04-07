@@ -1,4 +1,4 @@
-String baseUrl = "http://203.210.84.8:8082";
+String baseUrl = "http://131183204125.ip-dynamic.com:8082";
 
 class MyApi {
   static login(username, pass) {
@@ -8,6 +8,7 @@ class MyApi {
   static getOpnameList() {
     return '$baseUrl/api/StockOpname/GetOpnameCodeList';
   }
+
   static getOpnameCode(qr_code) {
     return '$baseUrl/api/StockOpname/GetOpnameCode?code=$qr_code';
   }
@@ -32,7 +33,29 @@ class MyApi {
   static entryDoOpname() {
     return '$baseUrl/api/DORealization/InsertData';
   }
+
   static getDOList() {
     return '$baseUrl/api/DORealization/GetDeliveryOrderList';
+  }
+
+  // GOODS RECEIPT
+  static getTransferIssueCode(transfer_code) {
+    return '$baseUrl/api/GoodsReceipt/GetTransferIssue?transfer_code=$transfer_code';
+  }
+
+  static getTransferIssueList() {
+    return '$baseUrl/api/GoodsReceipt/GetTransferIssueList';
+  }
+
+  static getItemByQrCode(transfer_code, qr_code) {
+    return '$baseUrl/api/GoodsReceipt/GetItemByQrCode?transfer_code=$transfer_code&qr_code=$qr_code';
+  }
+
+  static getRackList(item_id) {
+    return '$baseUrl/api/GoodsReceipt/GetRackList?item_id=$item_id';
+  }
+
+  static insertData() {
+    return '$baseUrl/api/GoodsReceipt/InsertData';
   }
 }

@@ -20,11 +20,9 @@ class AuthCubit extends Cubit<AuthState> {
     print(token);
     await Future.delayed(const Duration(seconds: 2));
     if (token != null) {
-      // Navigator.pushNamedAndRemoveUntil(context, BOTTOM_NAV, (route) => false);
-      Get.offAllNamed(BOTTOM_NAV);
+      Navigator.pushNamedAndRemoveUntil(context, BOTTOM_NAV, (route) => false);
     } else {
-      Get.offAllNamed(LOGIN);
-      // Navigator.pushNamedAndRemoveUntil(context, LOGIN, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, LOGIN, (route) => false);
     }
   }
 

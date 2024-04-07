@@ -6,59 +6,50 @@ import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
 import 'package:hikaron/source/data/Auth/cubit/profile_cubit.dart';
 import 'package:hikaron/source/data/Home/DoRealization/cubit/do_list_cubit.dart';
 import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubit.dart';
+import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/getissue_code_cubit.dart';
+import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/goods_receipt_cubit.dart';
+import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/racking_cubit.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_list_cubit.dart';
 import 'package:hikaron/source/network/network.dart';
-import 'package:hikaron/source/pages/dashboard/Home/DoRealitzation.dart';
+import 'package:hikaron/source/repository/GoodsReceiptRepository.dart';
 import 'package:hikaron/source/repository/repository.dart';
 import 'package:hikaron/source/router/router.dart';
-import 'package:hikaron/source/router/string.dart';
 
 void main() {
-  runApp(MyApp(
-    router: RouterNavigation(),
-    myRepository: MyRepository(myNetwork: MyNetwork()),
-  ));
+  runApp(MyApp(router: RouterNavigation()));
 }
 
 class MyApp extends StatelessWidget {
   final RouterNavigation? router;
-  final MyRepository? myRepository;
-  MyApp({super.key, this.router, this.myRepository});
+  MyApp({super.key, this.router});
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthCubit(myRepository: myRepository),
-        ),
-        BlocProvider(
-          create: (context) => StockOpnameCubit(myRepository: myRepository),
-        ),
-        BlocProvider(
-          create: (context) => StockOpnameListCubit(myRepository: myRepository),
-        ),
-        BlocProvider(
-          create: (context) => ProfileCubit(myRepository: myRepository),
-        ),
-        BlocProvider(
-          create: (context) => DoRealizationCubit(myRepository: myRepository),
-        ),
-        BlocProvider(
-          create: (context) => DoListCubit(myRepository: myRepository),
-        ),
+        RepositoryProvider(create: (context) => MyRepository()),
+        RepositoryProvider(create: (context) => GoodsReceiptRepository()),
       ],
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: SPLASH,
-        getPages: RouterNavigation.pages,
-        builder: EasyLoading.init(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => AuthCubit(myRepository: MyRepository())),
+          BlocProvider(create: (context) => StockOpnameCubit(myRepository: MyRepository())),
+          BlocProvider(create: (context) => StockOpnameListCubit(myRepository: MyRepository())),
+          BlocProvider(create: (context) => ProfileCubit(myRepository: MyRepository())),
+          BlocProvider(create: (context) => DoRealizationCubit(myRepository: MyRepository())),
+          BlocProvider(create: (context) => DoListCubit(myRepository: MyRepository())),
+          BlocProvider(create: (context) => GoodsReceiptCubit(repository: GoodsReceiptRepository())),
+          BlocProvider(create: (context) => GetissueCodeCubit(repository: GoodsReceiptRepository())),
+          BlocProvider(create: (context) => RackingCubit(repository: GoodsReceiptRepository())),
+        ],
+        // child: GetMaterialApp(
+        //   debugShowCheckedModeBanner: false,
+        //   initialRoute: SPLASH,
+        //   getPages: RouterNavigation.pages,
+        //   builder: EasyLoading.init(),
+        // ),
+        child: MaterialApp(debugShowCheckedModeBanner: false, onGenerateRoute: router!.generateRoute, builder: EasyLoading.init()),
       ),
-      // child: MaterialApp(
-      //   debugShowCheckedModeBanner: false,
-      //   onGenerateRoute: router!.generateRoute,
-      //   builder: EasyLoading.init()
-      // ),
     );
   }
 }

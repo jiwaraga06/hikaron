@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
-import 'package:hikaron/source/pages/dashboard/Home/home.dart';
 
-import 'package:hikaron/source/pages/dashboard/notifikasi.dart';
-import 'package:hikaron/source/pages/dashboard/profile.dart';
+part of "index.dart";
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});

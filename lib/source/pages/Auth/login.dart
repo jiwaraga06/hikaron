@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hikaron/source/data/Auth/cubit/auth_cubit.dart';
-import 'package:hikaron/source/router/string.dart';
-import 'package:hikaron/source/widget/customDialog.dart';
-import 'package:hikaron/source/widget/customTextField.dart';
+part of "../index.dart";
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,7 +13,7 @@ class _LoginState extends State<Login> {
   final formkey = GlobalKey<FormState>();
   bool showPass = true;
 
-  showPassword(){
+  showPassword() {
     setState(() {
       showPass = !showPass;
     });
@@ -49,7 +42,6 @@ class _LoginState extends State<Login> {
             } else {
               // MyDialog.dialogSuccess(context, 'Success !');
               Navigator.pushNamedAndRemoveUntil(context, BOTTOM_NAV, (route) => false);
-
             }
           }
         },
@@ -110,7 +102,7 @@ class _LoginState extends State<Login> {
                           onTap: () {
                             showPassword();
                           },
-                          child:showPass == true? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                          child: showPass == true ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
                         ),
                       ),
                     ),
@@ -125,9 +117,7 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       login();
                     },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF3A1078)
-                    ),
+                    style: ElevatedButton.styleFrom(primary: Color(0xFF3A1078)),
                     child: Text(
                       'Login',
                       style: GoogleFonts.montserrat(
