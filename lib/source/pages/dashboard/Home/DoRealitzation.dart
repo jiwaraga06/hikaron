@@ -1,4 +1,5 @@
 part of "../../index.dart";
+
 class DoRealization extends StatefulWidget {
   const DoRealization({super.key});
 
@@ -148,8 +149,10 @@ class _DoRealizationState extends State<DoRealization> {
                   controllerQty.clear();
                 });
               } else if (statusCode == 401) {
-                MyDialog.dialogAlert(context, json['message']);
-              } else {
+                  MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                    BlocProvider.of<ProfileCubit>(context).logout(context);
+                  });
+                }  else {
                 MyDialog.dialogAlert(context, json['title']);
               }
             }
@@ -352,8 +355,29 @@ class _DoRealizationState extends State<DoRealization> {
                           return Container();
                         }
                         var json = (state as DoListLoaded).json;
+                        var statusCode = (state as DoListLoaded).statusCode;
                         if (json.isEmpty) {
                           return Container();
+                        }
+                        if (statusCode == 401) {
+                          return Container(
+                            height: 200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Session Habis, silahkan login kembali"),
+                                const SizedBox(height: 10),
+                                CustomButton(
+                                  judul: "Logout",
+                                  onTap: () {
+                                    MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                                      BlocProvider.of<ProfileCubit>(context).logout(context);
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          );
                         }
                         return Expanded(
                           child: ListView.builder(

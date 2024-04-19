@@ -124,7 +124,9 @@ class _StockOpnameState extends State<StockOpname> {
                 controllerColor.clear();
                 controllerQty.clear();
               } else if (statusCode == 401) {
-                MyDialog.dialogAlert(context, json['message']);
+                MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                  BlocProvider.of<ProfileCubit>(context).logout(context);
+                });
               } else {
                 MyDialog.dialogAlert(context, json['title']);
               }
@@ -143,11 +145,13 @@ class _StockOpnameState extends State<StockOpname> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 40,
                                 child: CustomButton2(
-                                    onPressed: () {
-                                      showModal();
-                                      BlocProvider.of<StockOpnameListCubit>(context).getStockOpnameList(context);
-                                    },
-                                    judul: 'Pilih Opname', style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),)),
+                                  onPressed: () {
+                                    showModal();
+                                    BlocProvider.of<StockOpnameListCubit>(context).getStockOpnameList(context);
+                                  },
+                                  judul: 'Pilih Opname',
+                                  style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                                )),
                           )
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -297,8 +301,29 @@ class _StockOpnameState extends State<StockOpname> {
                           return Container();
                         }
                         var json = (state as StockOpnameListLoaded).json;
+                        var statusCode = (state as StockOpnameListLoaded).statusCode;
                         if (json.isEmpty) {
                           return Container();
+                        }
+                        if (statusCode == 401) {
+                          return Container(
+                            height: 200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Session Habis, silahkan login kembali"),
+                                const SizedBox(height: 10),
+                                CustomButton(
+                                  judul: "Logout",
+                                  onTap: () {
+                                    MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                                      BlocProvider.of<ProfileCubit>(context).logout(context);
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          );
                         }
                         return Expanded(
                           child: ListView.builder(

@@ -9,10 +9,13 @@ import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubi
 import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/getissue_code_cubit.dart';
 import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/goods_receipt_cubit.dart';
 import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/racking_cubit.dart';
+import 'package:hikaron/source/data/Home/ReturnIssue/cubit/getdataqr_cubit.dart';
+import 'package:hikaron/source/data/Home/ReturnIssue/cubit/return_cubit.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.dart';
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_list_cubit.dart';
 import 'package:hikaron/source/network/network.dart';
 import 'package:hikaron/source/repository/GoodsReceiptRepository.dart';
+import 'package:hikaron/source/repository/ReturnIssue.dart';
 import 'package:hikaron/source/repository/repository.dart';
 import 'package:hikaron/source/router/router.dart';
 
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (context) => MyRepository()),
         RepositoryProvider(create: (context) => GoodsReceiptRepository()),
+        RepositoryProvider(create: (context) => ReturnIssue()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -41,6 +45,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => GoodsReceiptCubit(repository: GoodsReceiptRepository())),
           BlocProvider(create: (context) => GetissueCodeCubit(repository: GoodsReceiptRepository())),
           BlocProvider(create: (context) => RackingCubit(repository: GoodsReceiptRepository())),
+          BlocProvider(create: (context) => ReturnCubit(repository: ReturnIssue())),
+          BlocProvider(create: (context) => GetdataqrCubit(repository: ReturnIssue())),
         ],
         // child: GetMaterialApp(
         //   debugShowCheckedModeBanner: false,

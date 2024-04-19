@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
             if (username == null) {
               return Container();
             }
-            return Text("Hallo, $username", style: GoogleFonts.montserrat(color: Colors.white));
+            return Text("Hallo, $username", style: GoogleFonts.montserrat(color: Colors.white, fontWeight: FontWeight.bold));
           },
         ),
       ),
@@ -128,14 +128,14 @@ class _HomeState extends State<Home> {
                                     Navigator.pushNamed(context, GOODS_RECEIPT);
                                     // Get.toNamed(STOCK_OPNAME);
                                   },
-                                  judul: 'Receipt',
+                                  judul: 'Goods Receipt',
                                 ),
                                 CustomButton(
                                   onTap: () {
                                     Navigator.pushNamed(context, RETURN);
                                     // Get.toNamed(STOCK_OPNAME);
                                   },
-                                  judul: 'Return',
+                                  judul: 'Return To\nProduction',
                                 ),
                               ],
                             ),

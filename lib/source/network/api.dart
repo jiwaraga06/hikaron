@@ -58,4 +58,13 @@ class MyApi {
   static insertData() {
     return '$baseUrl/api/GoodsReceipt/InsertData';
   }
+
+  // RETURN
+  static getdataReturnIssueQR(qrcode) {
+    return '$baseUrl/api/ReturnIssue/GetDataQR?qr_code=$qrcode';
+  }
+
+  static insertReturnIssue() {
+    return '$baseUrl/api/ReturnIssue/InsertData';
+  }
 }

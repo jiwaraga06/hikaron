@@ -23,7 +23,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void logout(context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.clear();
-    // Navigator.pushNamedAndRemoveUntil(context, LOGIN, (route) => false);
-    Get.offAllNamed(LOGIN);
+    Navigator.pushNamedAndRemoveUntil(context, LOGIN, (route) => false);
+    // Get.offAllNamed(LOGIN);
   }
 }

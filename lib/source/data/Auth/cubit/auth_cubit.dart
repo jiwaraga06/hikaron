@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hikaron/source/repository/repository.dart';
 import 'package:hikaron/source/router/string.dart';
 import 'package:meta/meta.dart';

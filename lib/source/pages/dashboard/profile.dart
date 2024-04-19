@@ -20,7 +20,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         backgroundColor: Color(0xFF3A1078),
         elevation: 0.0,
-        title: Text('Profile', style: GoogleFonts.montserrat(color: Colors.white)),
+        title: Text('Profile', style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
               onPressed: () {

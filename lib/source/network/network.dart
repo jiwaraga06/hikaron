@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hikaron/source/network/api.dart';
 import 'package:hikaron/source/widget/customDialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';

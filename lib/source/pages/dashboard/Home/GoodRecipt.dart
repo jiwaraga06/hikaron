@@ -33,7 +33,7 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-       onWillPop: () async {
+      onWillPop: () async {
         MyDialog.dialogInfo(context, 'Apakah Anda ingin keluar ? ', () {}, () {
           Navigator.pop(context);
         });
@@ -123,7 +123,9 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                   BlocProvider.of<RackingCubit>(context).initial();
                 });
               } else if (statusCode == 401) {
-                MyDialog.dialogAlert(context, json['message']);
+                MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                  BlocProvider.of<ProfileCubit>(context).logout(context);
+                });
               } else {
                 MyDialog.dialogAlert(context, json['message']);
               }
@@ -325,8 +327,29 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                           return Container();
                         }
                         var json = (state as GoodsReceiptLoaded).json;
+                        var statusCode = (state as GoodsReceiptLoaded).statusCode;
                         if (json.isEmpty) {
                           return Container();
+                        }
+                        if (statusCode == 401) {
+                          return Container(
+                            height: 200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Session Habis, silahkan login kembali"),
+                                const SizedBox(height: 10),
+                                CustomButton(
+                                  judul: "Logout",
+                                  onTap: () {
+                                    MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                                      BlocProvider.of<ProfileCubit>(context).logout(context);
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          );
                         }
                         return Expanded(
                           child: ListView.builder(
