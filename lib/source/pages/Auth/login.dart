@@ -117,7 +117,7 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       login();
                     },
-                    style: ElevatedButton.styleFrom(primary: Color(0xFF3A1078)),
+                    style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF3A1078)),
                     child: Text(
                       'Login',
                       style: GoogleFonts.montserrat(

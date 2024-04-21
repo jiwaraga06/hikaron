@@ -11,7 +11,7 @@ class CustomButtonSave extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        primary: Color(0xFF4E31AA),
+        backgroundColor: Color(0xFF4E31AA),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
       ),
       child: Text(
