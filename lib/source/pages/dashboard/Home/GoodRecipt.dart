@@ -13,6 +13,7 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
   TextEditingController controllerCari = TextEditingController();
   TextEditingController controllerReceiptDate = TextEditingController();
   TextEditingController controllerFromLocation = TextEditingController();
+  TextEditingController controllerTransfercode = TextEditingController();
   //
   TextEditingController controllerDesign = TextEditingController();
   TextEditingController controllerColor = TextEditingController();
@@ -67,6 +68,7 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                   var jam = DateFormat('dd/MM/yyyy').format(DateTime.now());
                   controllerFromLocation = TextEditingController(text: json['location_from']);
                   controllerReceiptDate = TextEditingController(text: jam);
+                  controllerTransfercode = TextEditingController(text: json['transfer_code']);
                   controllerDesign.clear();
                   controllerColor.clear();
                   controllerQty.clear();
@@ -115,15 +117,13 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
               if (statusCode == 200) {
                 MyDialog.dialogSuccess(context, json['message']);
                 setState(() {
-                  controllerFromLocation.clear();
-                  controllerReceiptDate.clear();
                   controllerDesign.clear();
                   controllerColor.clear();
                   controllerQty.clear();
                   BlocProvider.of<RackingCubit>(context).initial();
                 });
               } else if (statusCode == 401) {
-                MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                MyDialog.dialogInfo(context, 'Session Habis, login kembali', () {}, () {
                   BlocProvider.of<ProfileCubit>(context).logout(context);
                 });
               } else {
@@ -168,6 +168,13 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                         key: formkeyhead,
                         child: Column(
                           children: [
+                            CustomFormFieldRead(
+                              controller: controllerTransfercode,
+                              hint: 'Transfer Code',
+                              label: 'Transfer Code',
+                              msgError: 'Kolom harus di isi',
+                            ),
+                            const SizedBox(height: 10),
                             CustomFormFieldRead(
                               controller: controllerFromLocation,
                               hint: 'Masukan Location',
