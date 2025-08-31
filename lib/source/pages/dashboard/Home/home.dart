@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
             if (username == null) {
               return Container();
             }
-            return Text("Hallo, $username", style: GoogleFonts.montserrat(color: Colors.white, fontWeight: FontWeight.bold));
+            return Text("Hallo, $username", style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold));
           },
         ),
       ),
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 5.5,
+                    height: MediaQuery.of(context).size.height / 8.5,
                     decoration: const BoxDecoration(
                       gradient: RadialGradient(
                         colors: [
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                   ),
                   Column(
                     children: [
-                      const SizedBox(height: 80),
+                      const SizedBox(height: 40),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             height: 100,
-                            margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20, top: 20),
+                            margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20, top: 40),
                             child: Stack(
                               children: [
                                 Align(
@@ -98,21 +98,27 @@ class _HomeState extends State<Home> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomButton(
                                   onTap: () {
                                     Navigator.pushNamed(context, STOCK_OPNAME);
                                     // Get.toNamed(STOCK_OPNAME);
                                   },
-                                  judul: 'Stock Opname',
+                                  btnColor: const Color(0XFFF97A00),
+                                  splashColor: const Color(0XFFFFD700),
+                                  title: 'Stock Opname',
+                                  textStyle: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                                 CustomButton(
                                   onTap: () {
                                     // Get.toNamed(DO_REALIZATION);
                                     Navigator.pushNamed(context, DO_REALIZATION);
                                   },
-                                  judul: 'Packing List',
+                                  btnColor: const Color(0XFFF97A00),
+                                  splashColor: const Color(0XFFFFD700),
+                                  title: 'Packing List',
+                                  textStyle: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -121,22 +127,48 @@ class _HomeState extends State<Home> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomButton(
                                   onTap: () {
                                     Navigator.pushNamed(context, GOODS_RECEIPT);
                                     // Get.toNamed(STOCK_OPNAME);
                                   },
-                                  judul: 'Goods Receipt',
+                                  btnColor: const Color(0XFFF97A00),
+                                  splashColor: const Color(0XFFFFD700),
+                                  title: 'Goods Receipt',
+                                  textStyle: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                                 CustomButton(
                                   onTap: () {
                                     Navigator.pushNamed(context, RETURN);
                                     // Get.toNamed(STOCK_OPNAME);
                                   },
-                                  judul: 'Return To\nProduction',
+                                  btnColor: const Color(0XFFF97A00),
+                                  splashColor: const Color(0XFFFFD700),
+                                  title: 'Return To\nProduction',
+                                  textStyle: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomButton(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, PUT_AWAY);
+                                    // Get.toNamed(STOCK_OPNAME);
+                                  },
+                                  btnColor: const Color(0XFFF97A00),
+                                  splashColor: const Color(0XFFFFD700),
+                                  title: 'Put Away',
+                                  textStyle: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold),
+                                ),
+                                
                               ],
                             ),
                           ),

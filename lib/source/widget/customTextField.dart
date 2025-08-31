@@ -7,7 +7,7 @@ class CustomFormField extends StatelessWidget {
   final bool? obSecureText;
   final Widget? iconLock, iconSuffix;
   final VoidCallback? showPass;
-  final bool? iconPass,readOnly;
+  final bool? iconPass, readOnly;
   CustomFormField({
     super.key,
     this.hint,
@@ -29,33 +29,20 @@ class CustomFormField extends StatelessWidget {
       obscureText: obSecureText!,
       controller: controller,
       cursorColor: Colors.deepPurple,
-      style: GoogleFonts.montserrat(
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-      ),
+      style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
       decoration: InputDecoration(
           hintText: hint,
           labelText: label,
-          errorStyle: GoogleFonts.montserrat(fontSize: 15),
-          labelStyle: GoogleFonts.montserrat(
-            color: Colors.deepPurple,
-          ),
+          errorStyle: GoogleFonts.inter(fontSize: 15),
+          labelStyle: GoogleFonts.inter(color: Colors.deepPurple),
           prefixIcon: iconLock,
           suffixIcon: iconSuffix,
-          hintStyle: GoogleFonts.montserrat(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(
-              color: Colors.deepPurple,
-              width: 2,
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
+          hintStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0), borderSide: BorderSide(color: Colors.deepPurple)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0), borderSide: BorderSide(color: Colors.deepPurple)),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(12.0),
+          // ),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 8)),
       validator: (value) {
         if (value == null || value.isEmpty) {

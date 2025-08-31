@@ -71,4 +71,21 @@ class MyApi {
   static insertReturnIssue() {
     return '$baseUrl/api/ReturnIssue/InsertData';
   }
+
+  // PUT AWAY
+  static getRackListPutAway() {
+    return '$baseUrl/api/Putaway/GetRackList';
+  }
+
+  static getRackListByScanPutAway(rack_code) {
+    return '$baseUrl/api/Putaway/GetRackByScan?rack_code=$rack_code';
+  }
+
+  static getDataQRRackPutAway(rack_number, qr_code) {
+    return '$baseUrl/api/Putaway/GetDataQRByRackNumber?rack_number=$rack_number&qr_code=$qr_code';
+  }
+
+  static insertPutAway() {
+    return '$baseUrl/api/Putaway/InsertData';
+  }
 }

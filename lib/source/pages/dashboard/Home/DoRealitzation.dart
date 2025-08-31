@@ -50,9 +50,9 @@ class _DoRealizationState extends State<DoRealization> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Text('Packing List'),
+          backgroundColor: const Color(0XFFFF894F),
+          elevation: 2,
+          title: Text("Packing List", style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
           actions: [
             Switch(
               value: manual,
@@ -149,10 +149,10 @@ class _DoRealizationState extends State<DoRealization> {
                   controllerQty.clear();
                 });
               } else if (statusCode == 401) {
-                  MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
-                    BlocProvider.of<ProfileCubit>(context).logout(context);
-                  });
-                }  else {
+                MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
+                  BlocProvider.of<ProfileCubit>(context).logout(context);
+                });
+              } else {
                 MyDialog.dialogAlert(context, json['title']);
               }
             }
@@ -201,6 +201,7 @@ class _DoRealizationState extends State<DoRealization> {
                               label: 'DO Code',
                               msgError: 'Kolom harus di isi',
                             ),
+                            const SizedBox(height: 6),
                             CustomFormFieldRead(
                               controller: controllerDoDate,
                               hint: 'Masukan DO Date',
@@ -368,7 +369,7 @@ class _DoRealizationState extends State<DoRealization> {
                                 Text("Session Habis, silahkan login kembali"),
                                 const SizedBox(height: 10),
                                 CustomButton(
-                                  judul: "Logout",
+                                  title: "Logout",
                                   onTap: () {
                                     MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
                                       BlocProvider.of<ProfileCubit>(context).logout(context);

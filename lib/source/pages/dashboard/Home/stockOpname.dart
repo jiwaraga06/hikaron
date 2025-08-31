@@ -50,9 +50,9 @@ class _StockOpnameState extends State<StockOpname> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Text('Stock Opname'),
+          backgroundColor: const Color(0XFFFF894F),
+          elevation: 2,
+          title: Text('Stock Opname', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
           actions: [
             Switch(
               value: manual,
@@ -314,7 +314,7 @@ class _StockOpnameState extends State<StockOpname> {
                                 Text("Session Habis, silahkan login kembali"),
                                 const SizedBox(height: 10),
                                 CustomButton(
-                                  judul: "Logout",
+                                  title: "Logout",
                                   onTap: () {
                                     MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
                                       BlocProvider.of<ProfileCubit>(context).logout(context);

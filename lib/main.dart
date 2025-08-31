@@ -9,6 +9,10 @@ import 'package:hikaron/source/data/Home/DoRealization/cubit/do_realization_cubi
 import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/getissue_code_cubit.dart';
 import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/goods_receipt_cubit.dart';
 import 'package:hikaron/source/data/Home/GoodsReceipt/cubit/racking_cubit.dart';
+import 'package:hikaron/source/data/Home/PutAway/cubit/getdata_qr_put_away_cubit.dart';
+import 'package:hikaron/source/data/Home/PutAway/cubit/insert_put_away_cubit.dart';
+import 'package:hikaron/source/data/Home/PutAway/cubit/racklist_put_away_cubit.dart';
+import 'package:hikaron/source/data/Home/PutAway/cubit/scan_qr_rack_cubit.dart';
 import 'package:hikaron/source/data/Home/ReturnIssue/cubit/getdataqr_cubit.dart';
 import 'package:hikaron/source/data/Home/ReturnIssue/cubit/return_cubit.dart';
 import 'package:hikaron/source/data/Home/ReturnIssue/cubit/return_type_cubit.dart';
@@ -16,6 +20,7 @@ import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_cubit.da
 import 'package:hikaron/source/data/Home/StockOpname/cubit/stock_opname_list_cubit.dart';
 import 'package:hikaron/source/network/network.dart';
 import 'package:hikaron/source/repository/GoodsReceiptRepository.dart';
+import 'package:hikaron/source/repository/PutAwayRepository.dart';
 import 'package:hikaron/source/repository/ReturnIssue.dart';
 import 'package:hikaron/source/repository/repository.dart';
 import 'package:hikaron/source/router/router.dart';
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => MyRepository()),
         RepositoryProvider(create: (context) => GoodsReceiptRepository()),
         RepositoryProvider(create: (context) => ReturnIssue()),
+        RepositoryProvider(create: (context) => PutAwayRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -49,6 +55,11 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => ReturnCubit(repository: ReturnIssue())),
           BlocProvider(create: (context) => GetdataqrCubit(repository: ReturnIssue())),
           BlocProvider(create: (context) => ReturnTypeCubit(repository: ReturnIssue())),
+          // put away
+          BlocProvider(create: (context) => InsertPutAwayCubit(repository: PutAwayRepository())),
+          BlocProvider(create: (context) => RacklistPutAwayCubit(repository: PutAwayRepository())),
+          BlocProvider(create: (context) => GetdataQrPutAwayCubit(repository: PutAwayRepository())),
+          BlocProvider(create: (context) => ScanQrRackCubit(repository: PutAwayRepository())),
         ],
         // child: GetMaterialApp(
         //   debugShowCheckedModeBanner: false,

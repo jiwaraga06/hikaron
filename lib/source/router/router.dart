@@ -79,6 +79,11 @@ class RouterNavigation {
           pageBuilder: (context, animation, secondaryAnimation) => const ReturnScreem(),
           transitionsBuilder: rightToLeft,
         );
+      case PUT_AWAY:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const PutAwayScreen(),
+          transitionsBuilder: rightToLeft,
+        );
       case NOTIFIKASI:
         return PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => const Notifikasi());
       case PROFILE:

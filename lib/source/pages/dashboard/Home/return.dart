@@ -101,7 +101,11 @@ class _ReturnScreemState extends State<ReturnScreem> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Return To Production")),
+        appBar: AppBar(
+          backgroundColor: const Color(0XFFFF894F),
+          elevation: 2,
+          title: Text("Return To Production", style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+        ),
         body: BlocListener<ReturnCubit, ReturnState>(
           listener: (context, state) {
             if (state is EntryReturnLoading) {
@@ -146,79 +150,82 @@ class _ReturnScreemState extends State<ReturnScreem> {
                 Expanded(
                     child: ListView(
                   children: [
-                    Form(
-                        key: formkeyhead,
-                        child: Column(
-                          children: [
-                            CustomFormFieldRead(
-                              onTap: datepick,
-                              controller: controllerDate,
-                              hint: 'Masukan Tanggal',
-                              label: 'Tanggal',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                            BlocBuilder<ReturnTypeCubit, ReturnTypeState>(
-                              builder: (context, state) {
-                                if (state is ReturnTypeLoading) {
-                                  return CustomFormFieldRead(
-                                    hint: 'Choose Type',
-                                    label: 'Return Type',
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                          key: formkeyhead,
+                          child: Column(
+                            children: [
+                              CustomFormFieldRead(
+                                onTap: datepick,
+                                controller: controllerDate,
+                                hint: 'Masukan Tanggal',
+                                label: 'Tanggal',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                              BlocBuilder<ReturnTypeCubit, ReturnTypeState>(
+                                builder: (context, state) {
+                                  if (state is ReturnTypeLoading) {
+                                    return CustomFormFieldRead(
+                                      hint: 'Choose Type',
+                                      label: 'Return Type',
+                                    );
+                                  }
+                                  if (state is ReturnTypeFailed) {
+                                    return CustomFormFieldRead(
+                                      hint: 'Return Type',
+                                      label: 'Return Type',
+                                    );
+                                  }
+                                  var data = (state as ReturnTypeLoaded).model;
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 8, right: 8),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text("Return Type", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                                        const SizedBox(height: 4),
+                                        DropdownButton(
+                                          value: valueType,
+                                          isExpanded: true,
+                                          hint: const Text("Return Type"),
+                                          underline: const Divider(color: Colors.grey, thickness: 0.8),
+                                          items: data!.map((e) {
+                                            return DropdownMenuItem(
+                                              value: e.value,
+                                              child: Text(e.display!),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              if (value == "*") {
+                                                EasyLoading.showError("Tidak bisa dipilih");
+                                              } else if (value != "*") {
+                                                print(value);
+                                                valueType = value!;
+                                              }
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   );
-                                }
-                                if (state is ReturnTypeFailed) {
-                                  return CustomFormFieldRead(
-                                    hint: 'Return Type',
-                                    label: 'Return Type',
-                                  );
-                                }
-                                var data = (state as ReturnTypeLoaded).model;
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 8, right: 8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text("Return Type", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-                                      const SizedBox(height: 4),
-                                      DropdownButton(
-                                        value: valueType,
-                                        isExpanded: true,
-                                        hint: const Text("Return Type"),
-                                        underline: const Divider(color: Colors.grey, thickness: 0.8),
-                                        items: data!.map((e) {
-                                          return DropdownMenuItem(
-                                            value: e.value,
-                                            child: Text(e.display!),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value == "*") {
-                                              EasyLoading.showError("Tidak bisa dipilih");
-                                            } else if (value != "*") {
-                                              print(value);
-                                              valueType = value!;
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            CustomFormField(
-                              readOnly: false,
-                              obSecureText: false,
-                              controller: controllerRemarks,
-                              hint: 'Masukan Remarks',
-                              label: 'Remarks',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                          ],
-                        )),
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              CustomFormField(
+                                readOnly: false,
+                                obSecureText: false,
+                                controller: controllerRemarks,
+                                hint: 'Masukan Remarks',
+                                label: 'Remarks',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          )),
+                    ),
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

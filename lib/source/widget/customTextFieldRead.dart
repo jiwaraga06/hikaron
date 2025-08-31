@@ -23,19 +23,15 @@ class CustomFormFieldRead extends StatelessWidget {
       readOnly: true,
       onTap: onTap,
       cursorColor: Colors.deepPurple,
-      style: GoogleFonts.montserrat(
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-      ),
+      style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600),
       decoration: InputDecoration(
           hintText: hint,
           labelText: label,
-          errorStyle: GoogleFonts.montserrat(fontSize: 15),
-          labelStyle: GoogleFonts.montserrat(
-            color: Colors.deepPurple,
-          ),
+          errorStyle: GoogleFonts.inter(fontSize: 15),
+          labelStyle: GoogleFonts.inter(color: Colors.deepPurple),
           contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          border: UnderlineInputBorder(borderRadius: BorderRadius.circular(8.0),borderSide: BorderSide(color: Colors.deepPurple)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0), borderSide: BorderSide(color: Colors.deepPurple)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0), borderSide: BorderSide(color: Colors.deepPurple)),
           suffix: Text(m ?? '')),
       validator: (value) {
         if (value == null || value.isEmpty) {

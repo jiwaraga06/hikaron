@@ -18,13 +18,23 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
   TextEditingController controllerDesign = TextEditingController();
   TextEditingController controllerColor = TextEditingController();
   TextEditingController controllerQty = TextEditingController();
-  var namarack;
-  var transfercode, transferid, qrcode, itemId, width, rackId;
+  var namarack = "*";
+  var transfercode, transferid, qrcode, itemId, width;
+  var rackId = 0;
   bool manual = false;
+  void changeManual(bool? value){
+    setState(() {
+      manual = !manual;
+    });
+  }
 
   void save() {
     if (formkeyhead.currentState!.validate()) {
       if (formkeydetail.currentState!.validate()) {
+        // if (rackId == 0) {
+        //   MyDialog.dialogAlert(context, "Rack belum dipilih");
+        //   return;
+        // }
         BlocProvider.of<GetissueCodeCubit>(context)
             .entry(transferid, qrcode, itemId, controllerDesign.text, controllerColor.text, width, controllerQty.text, rackId, context);
       }
@@ -42,15 +52,13 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Receipt"),
+          backgroundColor: const Color(0XFFFF894F),
+          elevation: 2,
+          title: Text("Receipt", style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
           actions: [
             Switch(
               value: manual,
-              onChanged: (value) {
-                setState(() {
-                  manual = !manual;
-                });
-              },
+              onChanged: changeManual
             )
           ],
         ),
@@ -78,7 +86,7 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                   qrcode = null;
                   itemId = null;
                   width = null;
-                  rackId = null;
+                  rackId = 0;
                 });
               } else {
                 MyDialog.dialogAlert(context, json['message']);
@@ -158,38 +166,41 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                         padding: const EdgeInsets.all(8.0),
                         child: CustomButtonScan(
                           onTap: () {
-                            // BlocProvider.of<GetissueCodeCubit>(context).scanQr(context);
+                            BlocProvider.of<GetissueCodeCubit>(context).scanQr(context);
                           },
                           judul: 'Scan QR',
                         ),
                       ),
                     const SizedBox(height: 10),
-                    Form(
-                        key: formkeyhead,
-                        child: Column(
-                          children: [
-                            CustomFormFieldRead(
-                              controller: controllerTransfercode,
-                              hint: 'Transfer Code',
-                              label: 'Transfer Code',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomFormFieldRead(
-                              controller: controllerFromLocation,
-                              hint: 'Masukan Location',
-                              label: 'From Location',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomFormFieldRead(
-                              controller: controllerReceiptDate,
-                              hint: 'Masukan Receipt Date',
-                              label: 'Receipt Date',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                          ],
-                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                          key: formkeyhead,
+                          child: Column(
+                            children: [
+                              CustomFormFieldRead(
+                                controller: controllerTransfercode,
+                                hint: 'Transfer Code',
+                                label: 'Transfer Code',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                              CustomFormFieldRead(
+                                controller: controllerFromLocation,
+                                hint: 'Masukan Location',
+                                label: 'From Location',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                              CustomFormFieldRead(
+                                controller: controllerReceiptDate,
+                                hint: 'Masukan Receipt Date',
+                                label: 'Receipt Date',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                            ],
+                          )),
+                    ),
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -201,76 +212,109 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Form(
-                        key: formkeydetail,
-                        child: Column(
-                          children: [
-                            CustomFormFieldRead(
-                              controller: controllerDesign,
-                              hint: 'Masukan Design',
-                              label: 'Design',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomFormFieldRead(
-                              controller: controllerColor,
-                              hint: 'Masukan Color',
-                              label: 'Color',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomFormFieldRead(
-                              controller: controllerQty,
-                              hint: 'Masukan Qty',
-                              label: 'Qty',
-                              msgError: 'Kolom harus di isi',
-                            ),
-                            const SizedBox(height: 10),
-                            BlocBuilder<RackingCubit, RackingState>(
-                              builder: (context, state) {
-                                if (state is RackingLoading) {
-                                  return CustomFormFieldRead(
-                                    hint: 'Pilih Racking',
-                                    label: 'Racking',
-                                  );
-                                }
-                                if (state is RackingLoaded == false) {
-                                  return CustomFormFieldRead(
-                                    hint: 'Pilih Racking',
-                                    label: 'Racking',
-                                  );
-                                }
-                                var data = (state as RackingLoaded).json;
-                                return Container(
-                                  padding: const EdgeInsets.only(left: 2, right: 2),
-                                  child: DropdownSearch(
-                                    popupProps: const PopupProps.menu(showSearchBox: true, fit: FlexFit.loose),
-                                    items: data.map((e) => e['rack_code']).toList(),
-                                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                          hintText: "Rack Code",
-                                          labelText: "Rack Code",
-                                          labelStyle: TextStyle(color: Colors.black),
-                                          hintStyle: TextStyle(color: Colors.black)),
-                                    ),
-                                    onChanged: (value) {
-                                      print(value);
-                                      setState(() {
-                                        data.where((e) => e['rack_code'] == value).forEach((a) {
-                                          rackId = a['rack_id'];
-                                          namarack = a['rack_code'];
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                          key: formkeydetail,
+                          child: Column(
+                            children: [
+                              CustomFormFieldRead(
+                                controller: controllerDesign,
+                                hint: 'Masukan Design',
+                                label: 'Design',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                              CustomFormFieldRead(
+                                controller: controllerColor,
+                                hint: 'Masukan Color',
+                                label: 'Color',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                              CustomFormFieldRead(
+                                controller: controllerQty,
+                                hint: 'Masukan Qty',
+                                label: 'Qty',
+                                msgError: 'Kolom harus di isi',
+                              ),
+                              const SizedBox(height: 10),
+                              BlocBuilder<RackingCubit, RackingState>(
+                                builder: (context, state) {
+                                  if (state is RackingLoading) {
+                                    return DropdownSearch(
+                                      popupProps: const PopupProps.menu(showSearchBox: true, fit: FlexFit.loose),
+                                      items: [
+                                        {"rack_id": 0, "rack_code": "*"},
+                                      ].map((e) => e['rack_code']).toList(),
+                                      dropdownDecoratorProps: const DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                            hintText: "Rack Code",
+                                            labelText: "Rack Code",
+                                            labelStyle: TextStyle(color: Colors.black),
+                                            hintStyle: TextStyle(color: Colors.black)),
+                                      ),
+                                      onChanged: (value) {},
+                                      selectedItem: namarack,
+                                    );
+                                  }
+                                  if (state is RackingLoaded == false) {
+                                    // return CustomFormFieldRead(
+                                    //   hint: 'Pilih Racking',
+                                    //   label: 'Racking',
+                                    // );
+                                    return DropdownSearch(
+                                      popupProps: const PopupProps.menu(showSearchBox: true, fit: FlexFit.loose),
+                                      items: [
+                                        {"rack_id": 0, "rack_code": "*"},
+                                      ].map((e) => e['rack_code']).toList(),
+                                      dropdownDecoratorProps: const DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                            hintText: "Rack Code",
+                                            labelText: "Rack Code",
+                                            labelStyle: TextStyle(color: Colors.black),
+                                            hintStyle: TextStyle(color: Colors.black)),
+                                      ),
+                                      onChanged: (value) {},
+                                      selectedItem: namarack,
+                                    );
+                                  }
+                                  var data = (state as RackingLoaded).json;
+                                  return Container(
+                                    padding: const EdgeInsets.only(left: 2, right: 2),
+                                    child: DropdownSearch(
+                                      popupProps: const PopupProps.menu(showSearchBox: true, fit: FlexFit.loose),
+                                      items: data.map((e) => e['rack_code']).toList(),
+                                      dropdownDecoratorProps: const DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                            hintText: "Rack Code",
+                                            labelText: "Rack Code",
+                                            labelStyle: TextStyle(color: Colors.black),
+                                            hintStyle: TextStyle(color: Colors.black)),
+                                      ),
+                                      onChanged: (value) {
+                                        print(value);
+                                        setState(() {
+                                          data.where((e) => e['rack_code'] == value).forEach((a) {
+                                            rackId = a['rack_id'];
+                                            namarack = a['rack_code'];
+                                          });
                                         });
-                                      });
-                                    },
-                                    selectedItem: namarack,
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        )),
+                                      },
+                                      selectedItem: namarack,
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          )),
+                    ),
                     const SizedBox(height: 10),
                   ],
                 ),
@@ -347,7 +391,7 @@ class _GoodsReceiptState extends State<GoodsReceipt> {
                                 Text("Session Habis, silahkan login kembali"),
                                 const SizedBox(height: 10),
                                 CustomButton(
-                                  judul: "Logout",
+                                  title: "Logout",
                                   onTap: () {
                                     MyDialog.dialogInfo(context, 'Apakah Anda Ingin Keluar ?', () {}, () {
                                       BlocProvider.of<ProfileCubit>(context).logout(context);
